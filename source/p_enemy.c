@@ -391,41 +391,6 @@ static boolean P_Move(mobj_t *actor, boolean dropoff) /* killough 9/12/98 */
   return true;
 }
 
-/*
- * P_SmartMove
- *
- * killough 9/12/98: Same as P_Move, except smarter
- */
-
-static boolean P_SmartMove(mobj_t *actor)
-{
-  mobj_t *target = actor->target;
-  int on_lift, dropoff = false, under_damage;
-
-  /* killough 9/12/98: Stay on a lift if target is on one */
-  on_lift = target && target->health > 0
-    && target->subsector->sector->tag==actor->subsector->sector->tag &&
-    P_IsOnLift(actor);
-
-  under_damage = P_IsUnderDamage(actor);
-
-  if (!P_Move(actor, dropoff))
-    return false;
-
-  // killough 9/9/98: avoid crushing ceilings or other damaging areas
-  if (
-      (on_lift && P_Random() < 230 &&      // Stay on lift
-       !P_IsOnLift(actor))
-      ||
-      (!under_damage &&  // Get away from damage
-       (under_damage = P_IsUnderDamage(actor)) &&
-       (under_damage < 0 || P_Random() < 200))
-      )
-    actor->movedir = DI_NODIR;    // avoid the area (most of the time anyway)
-
-  return true;
-}
-
 //
 // TryWalk
 // Attempts to move actor on
@@ -440,7 +405,8 @@ static boolean P_SmartMove(mobj_t *actor)
 
 static boolean P_TryWalk(mobj_t *actor)
 {
-  if (!P_SmartMove(actor))
+  //if (!P_SmartMove(actor))
+  if (!P_Move(actor, false)) //Dumbify AI a bit for this build ~Kippykip
     return false;
   actor->movecount = P_Random()&15;
   return true;
@@ -663,43 +629,6 @@ static boolean P_IsVisible(mobj_t *actor, mobj_t *mo, boolean allaround)
 }
 
 //
-// PIT_FindTarget
-//
-// killough 9/5/98
-//
-// Finds monster targets for other monsters
-//
-
-
-static boolean PIT_FindTarget(mobj_t *mo)
-{
-  mobj_t *actor = _g->current_actor;
-
-  if (!((mo->flags ^ actor->flags) & MF_FRIEND &&        // Invalid target
-  mo->health > 0 && (mo->flags & MF_COUNTKILL || mo->type == MT_SKULL)))
-    return true;
-
-  // If the monster is already engaged in a one-on-one attack
-  // with a healthy friend, don't attack around 60% the time
-  {
-    const mobj_t *targ = mo->target;
-    if (targ && targ->target == mo &&
-  P_Random() > 100 &&
-  (targ->flags ^ mo->flags) & MF_FRIEND &&
-  targ->health*2 >= targ->info->spawnhealth)
-      return true;
-  }
-
-  if (!P_IsVisible(actor, mo, _g->current_allaround))
-    return true;
-
-  P_SetTarget(&actor->lastenemy, actor->target);  // Remember previous target
-  P_SetTarget(&actor->target, mo);                // Found target
-
-  return false;
-}
-
-//
 // P_LookForPlayers
 // If allaround is false, only look 180 degrees in front.
 // Returns true if a player is targeted.
@@ -887,6 +816,12 @@ void A_Look(mobj_t *actor)
 
 void A_Chase(mobj_t *actor)
 {
+	//Unfortunately cancel AI if far distance, there's just way too many enemies at once with TNT ~Kippykip
+	player_t *player;
+	player = &_g->player;
+	if (P_AproxDistance(player->mo->x-actor->x, player->mo->y-actor->y) > LOOKRANGE)
+		return;		
+		
     if (actor->reactiontime)
         actor->reactiontime--;
 
@@ -1002,7 +937,8 @@ void A_Chase(mobj_t *actor)
         actor->strafecount--;
 
     // chase towards player
-    if (--actor->movecount<0 || !P_SmartMove(actor))
+    //if (--actor->movecount<0 || !P_SmartMove(actor)) //Dumbify AI a bit for this build ~Kippykip
+    if (--actor->movecount<0 || !P_Move(actor, false))
         P_NewChaseDir(actor);
 
     // make active sound
