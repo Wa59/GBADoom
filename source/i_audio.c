@@ -147,7 +147,7 @@ static const audio_map_t musicMap[NUMMUSIC] =
     {mus_tense, MOD_D_TENSE},
     {mus_shawn3, MOD_D_SHAWN},
     {mus_openin, MOD_D_OPENIN},
-    {mus_evil, MOD_D_EVIL},
+    {mus_evil, MOD_D_DM2INT},
     {mus_ultima, MOD_D_ULTIMA},
     {mus_read_m, MOD_D_READ_M},
     {mus_dm2ttl, MOD_D_DM2TTL},
