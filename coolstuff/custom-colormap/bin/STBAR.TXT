@@ -1,0 +1,4 @@
+Type: Image
+Offset: 509880
+Width: 240
+Height: 32
