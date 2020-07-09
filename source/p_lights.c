@@ -256,7 +256,7 @@ void P_SpawnStrobeFlash
   flash->minlight = P_FindMinSurroundingLight(sector, sector->lightlevel);
 
   if (flash->minlight == flash->maxlight)
-    flash->minlight = 0;
+    flash->minlight = 64;
 
   // nothing special about it during gameplay
   sector->special &= ~31; //jff 3/14/98 clear non-generalized sector type

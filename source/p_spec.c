@@ -744,8 +744,8 @@ int P_FindMinSurroundingLight
 
     if (!check)
       continue;
-
-    if (check->lightlevel < min)
+  
+    if (check->lightlevel < min && check->lightlevel >=4) //Ignore coloured light areas if possible
       min = check->lightlevel;
   }
   return min;
