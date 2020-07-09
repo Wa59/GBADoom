@@ -460,7 +460,22 @@ static const lighttable_t* R_ColourMap(int lightlevel)
 {
     if (fixedcolormap)
         return fixedcolormap;
-    else
+    else if (lightlevel < 4)
+	{
+		switch(lightlevel)
+		{
+			case 0: //Yellow
+				return fullcolormap + 37*256;
+			case 1: //Blue
+				return fullcolormap + 36*256;
+			case 2: //Green
+				return fullcolormap + 35*256;
+			case 3: //Red
+				return fullcolormap + 34*256;
+			default: //Uhh... how?
+				return fullcolormap;
+		}
+    }else
     {
         if (curline)
         {
