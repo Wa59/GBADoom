@@ -70,7 +70,7 @@ Type the following:
 And copy it to the **source\\iwad\\** directory.
 Alternatively just run the **build_XXXX.bat** files and it'll create it in the source\iwad\ path.
 
-3) Open C:\DevKitPro\Projects\GBADoom\source\doom_iwad.h in text editor or code editor of your choice.
+3) Open C:\DevKitPro\Projects\GBADoom\source\doom_iwad.c in text editor or code editor of your choice.
 4) Change the first line to #include "iwad/**yourfile**.c" e.g.
 #include "iwad/doom1.c"
 #include "iwad/doom.c"
