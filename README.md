@@ -4,7 +4,7 @@
 A slightly modified version of **[doomhack](https://github.com/doomhack/GBADoom)**'s amazing port of prBoom to the GBA.  
 A pre-compiled shareware rom can be found over at the **[Releases](https://github.com/Kippykip/GBADoom/releases)** tab, while a developer branch can be found as **[in-dev](https://github.com/Kippykip/GBADoom/tree/in-dev)**
 
-This port uses optimizations from viti95's FastDoom port, originally made to run as fast as possible on slow 386 and 486 systems, as to make the game run as fast as possible on GBA, some memory issues are still present at this moment on larger maps, mostly on Final Doom. 
+This port uses optimizations from **[viti95's FastDoom port](https://github.com/viti95/FastDoom)**, originally made to run as fast as possible on slow 386 and 486 systems, as to make the game run as fast as possible on GBA, some memory issues are still present at this moment on larger maps, mostly on Final Doom. 
 
 ![Episode 2](https://i.imgur.com/kOwpVzW.png)  
 
